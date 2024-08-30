@@ -6,7 +6,7 @@
 # the terms of the Apache License 2.0 which accompanies this distribution.     #
 # ============================================================================ #
 
-import sys, random
+import sys
 
 import pytest
 import numpy as np
@@ -14,6 +14,7 @@ from typing import List
 
 import cudaq
 from cudaq import spin
+import secrets
 
 ## [PYTHON_VERSION_FIX]
 skipIfPythonLessThan39 = pytest.mark.skipif(
@@ -303,13 +304,13 @@ def test_spec_adherence():
 
 @skipIfPythonLessThan39
 def test_pack_args_pauli_list():
-    random.seed(13)
+    secrets.SystemRandom().seed(13)
     np.random.seed(13)
 
     def generateRandomPauliStrings(numQubits, numPaulis):
         s = ['X', 'Y', 'Z', 'I']
         return [
-            ''.join([random.choice(s)
+            ''.join([secrets.choice(s)
                      for i in range(numQubits)])
             for i in range(numPaulis)
         ]

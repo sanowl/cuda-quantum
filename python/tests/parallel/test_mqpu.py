@@ -6,9 +6,10 @@
 # the terms of the Apache License 2.0 which accompanies this distribution.     #
 # ============================================================================ #
 
-import cudaq, os, pytest, random, timeit
+import cudaq, os, pytest, timeit
 from cudaq import spin
 import numpy as np
+import secrets
 
 skipIfNoMQPU = pytest.mark.skipif(
     not (cudaq.num_available_gpus() > 0 and cudaq.has_target('nvidia-mqpu')),
@@ -41,7 +42,7 @@ def testLargeProblem():
     nQubits = 4
     nTerms = 70
     nLayers = 2
-    cnotPairs = random.sample(range(nQubits), nQubits)
+    cnotPairs = secrets.SystemRandom().sample(range(nQubits), nQubits)
 
     H = cudaq.SpinOperator.random(nQubits, nTerms, seed=13)
     kernel, params = cudaq.make_kernel(list)
@@ -122,7 +123,7 @@ def testLargeProblem_kernel():
     nQubits = 4
     nTerms = 70
     nLayers = 2
-    cnotPairs = random.sample(range(nQubits), nQubits)
+    cnotPairs = secrets.SystemRandom().sample(range(nQubits), nQubits)
 
     H = cudaq.SpinOperator.random(nQubits, nTerms, seed=13)
 
