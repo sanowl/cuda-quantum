@@ -40,11 +40,8 @@ async_results = cudaq.sample_async(kernel)
 file = open("future.txt", "w")
 file.write(str(async_results))
 file.close()
-
-# We can later read the file content and retrieve the job
-# information and results.
-same_file = open("future.txt", "r")
-retrieved_async_results = cudaq.AsyncSampleResult(str(same_file.read()))
+with open("future.txt", "r") as same_file:
+    retrieved_async_results = cudaq.AsyncSampleResult(str(same_file.read()))
 
 counts = retrieved_async_results.get()
 print(counts)
