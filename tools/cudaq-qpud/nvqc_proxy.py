@@ -157,7 +157,7 @@ class Server(http.server.SimpleHTTPRequestHandler):
             qpud_url = 'http://localhost:' + str(QPUD_PORT)
             while (not qpud_up):
                 try:
-                    ping_response = requests.get(qpud_url)
+                    ping_response = requests.get(qpud_url, timeout=60)
                     qpud_up = (ping_response.status_code == HTTPStatus.OK)
                 except:
                     qpud_up = False
@@ -238,7 +238,7 @@ class Server(http.server.SimpleHTTPRequestHandler):
                     res = requests.request(method=self.command,
                                            url=qpud_url + self.path,
                                            headers=self.headers,
-                                           data=request_data)
+                                           data=request_data, timeout=60)
                     self.send_response(HTTPStatus.OK)
                     self.send_header('Content-Type', 'application/json')
                     message = json.dumps(res.json()).encode('utf-8')
