@@ -10,13 +10,13 @@
 # the kernel builder.
 
 import pytest
-import random
 import numpy as np
 import sys
 from typing import List
 
 import cudaq
 from cudaq import spin
+import secrets
 
 ## [PYTHON_VERSION_FIX]
 skipIfPythonLessThan39 = pytest.mark.skipif(
@@ -604,7 +604,7 @@ def test_cswap_gate_ctrl_list(control_count):
     # SWAP's are performed if and only if all controls are in the
     # |1> state.
     if (len(controls) > 1):
-        random_index = random.randint(0, control_count - 1)
+        random_index = secrets.SystemRandom().randint(0, control_count - 1)
         kernel.x(controls[random_index])
         # Not all controls in the in |1>, no SWAP.
         kernel.cswap(controls, first, second)

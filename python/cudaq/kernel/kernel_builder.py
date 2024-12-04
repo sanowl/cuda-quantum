@@ -9,7 +9,6 @@
 from functools import partialmethod
 import hashlib
 import uuid
-import random
 import re
 import string
 import sys
@@ -28,6 +27,7 @@ from ..mlir.execution_engine import *
 from ..mlir.dialects import quake, cc
 from ..mlir.dialects import builtin, func, arith, math, complex as complexDialect
 from ..mlir._mlir_libs._quakeDialects import cudaq_runtime, load_intrinsic, register_all_dialects, gen_vector_of_complex_constant
+import secrets
 
 kDynamicPtrIndex: int = -2147483648
 
@@ -266,7 +266,7 @@ class PyKernel(object):
         self.module = Module.create(loc=self.loc)
         self.funcName = '{}__nvqppBuilderKernel_{}'.format(
             nvqppPrefix, ''.join(
-                random.choice(string.ascii_uppercase + string.digits)
+                secrets.choice(string.ascii_uppercase + string.digits)
                 for _ in range(10)))
         self.name = remove_prefix(self.funcName, nvqppPrefix)
         self.funcNameEntryPoint = self.funcName + '_PyKernelEntryPointRewrite'

@@ -1,6 +1,6 @@
 import argparse
 import cudaq
-import random
+import secrets
 
 # This example assumes the NVQC API key has been set in the `NVQC_API_KEY` environment variable.
 # If not, you can set the API Key environment variable in the Python script with:
@@ -12,7 +12,7 @@ import random
 def random_bitstring(length: int):
     bitstring = ""
     for bit in range(length):
-        bitstring += str(random.randint(0, 1))
+        bitstring += str(secrets.SystemRandom().randint(0, 1))
     return bitstring
 
 
@@ -99,7 +99,7 @@ if __name__ == '__main__':
     # you pass the `--ngpus` as a command line argument.
     qubit_count = args.size
     if args.seed != 0:
-        random.seed(args.seed)
+        secrets.SystemRandom().seed(args.seed)
 
     cudaq.set_target("nvqc", backend="nvidia-mgpu", ngpus=args.ngpus)
 

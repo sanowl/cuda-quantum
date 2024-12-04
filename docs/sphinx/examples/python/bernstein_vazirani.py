@@ -1,13 +1,13 @@
 import cudaq
-import random
 
 from typing import List
+import secrets
 
 
 def random_bits(length: int):
     bitset = []
     for _ in range(length):
-        bitset.append(random.randint(0, 1))
+        bitset.append(secrets.SystemRandom().randint(0, 1))
     return bitset
 
 
