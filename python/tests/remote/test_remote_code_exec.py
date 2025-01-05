@@ -15,6 +15,7 @@ import numpy as np
 import cudaq
 from cudaq import spin
 import numpy as np
+from security import safe_command
 
 try:
     import requests
@@ -94,8 +95,8 @@ def startUpMockServer():
     os.environ['CUDAQ_SER_CODE_EXEC'] = '1'
     cudaq_qpud = os.path.dirname(cudaq.__file__) + "/../bin/cudaq-qpud.py"
     nvqc_proxy = os.path.dirname(cudaq.__file__) + "/../bin/nvqc_proxy.py"
-    p1 = subprocess.Popen([sys.executable, nvqc_proxy])
-    p2 = subprocess.Popen([sys.executable, cudaq_qpud, '--port', '3031'])
+    p1 = safe_command.run(subprocess.Popen, [sys.executable, nvqc_proxy])
+    p2 = safe_command.run(subprocess.Popen, [sys.executable, cudaq_qpud, '--port', '3031'])
     cudaq.set_target("remote-mqpu", url="localhost:3030")
     proxy_up = wait_until_port_active(3030)
     qpud_up = wait_until_port_active(3031)
