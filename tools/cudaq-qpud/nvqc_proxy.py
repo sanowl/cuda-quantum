@@ -19,6 +19,7 @@ import os
 import tempfile
 import shutil
 import pathlib
+from security import safe_command
 
 # This reverse proxy application is needed to span the small gaps when
 # `cudaq-qpud` is shutting down and starting up again. This small reverse proxy
@@ -196,7 +197,7 @@ class Server(http.server.SimpleHTTPRequestHandler):
                         save_dir = os.getcwd()
                         os.chdir(pathlib.Path(temp_file.name).parent)
                         cmd_list = build_command_list(temp_file.name)
-                        cmd_result = subprocess.run(cmd_list,
+                        cmd_result = safe_command.run(subprocess.run, cmd_list,
                                                     capture_output=False,
                                                     text=True)
 

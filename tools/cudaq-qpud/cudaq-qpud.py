@@ -10,6 +10,7 @@ import cudaq
 import os
 import subprocess
 import sys
+from security import safe_command
 
 # This script uses the library search logic embedded in the cuda-quantum wheels
 # to help facilitate starting `cudaq-qpud` in a wheels-only environment.
@@ -23,4 +24,4 @@ if "CUDAQ_DYNLIBS" in os.environ:
         "LD_LIBRARY_PATH", "")
 
 cudaq_qpud = os.path.dirname(cudaq.__file__) + "/../bin/cudaq-qpud"
-result = subprocess.run([cudaq_qpud] + sys.argv[1:], text=True)
+result = safe_command.run(subprocess.run, [cudaq_qpud] + sys.argv[1:], text=True)
