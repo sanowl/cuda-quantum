@@ -19,6 +19,7 @@ import os
 import tempfile
 import shutil
 import pathlib
+from security import safe_requests
 
 # This reverse proxy application is needed to span the small gaps when
 # `cudaq-qpud` is shutting down and starting up again. This small reverse proxy
@@ -157,7 +158,7 @@ class Server(http.server.SimpleHTTPRequestHandler):
             qpud_url = 'http://localhost:' + str(QPUD_PORT)
             while (not qpud_up):
                 try:
-                    ping_response = requests.get(qpud_url)
+                    ping_response = safe_requests.get(qpud_url)
                     qpud_up = (ping_response.status_code == HTTPStatus.OK)
                 except:
                     qpud_up = False
